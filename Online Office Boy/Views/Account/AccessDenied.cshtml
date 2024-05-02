@@ -1,0 +1,39 @@
+﻿@{
+    Layout = "";
+}
+
+<div class="row mt-5 mb-5">
+    <div class=" col-4 m-auto  w3-display-middle">
+        <h1 class="w3-jumbo w3-animate-top w3-center"><code>Access Denied</code></h1>
+        <h3 class=" text-black w3-animate-right">You dont have permission to view this site.</h3>
+
+        @if (User.IsInRole("Admin") || User.IsInRole("OfficeBoy"))
+        {
+            <a class="btn btn-warning" asp-action="Index" asp-controller="Home">GO Back To Home</a>
+
+        }
+        else
+        {
+        <a class="btn btn-warning" asp-action="UserIndex" asp-controller="Home">GO Back To Home</a>
+            
+        }
+    </div>
+</div>
+   
+
+<style>
+    body {
+        background-color: white;
+        color: white;
+    }
+
+    h1 {
+        color: red;
+    }
+
+    h6 {
+        color: red;
+        text-decoration: underline;
+    }
+
+</style>

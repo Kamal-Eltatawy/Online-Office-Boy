@@ -1,0 +1,42 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Products";
+}
+@model List<ApplicationService.ViewModels.ProductResponseVM>
+
+<div class="container">
+    <h2>Product</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Is Available</th>
+                <th>Ready Time</th>
+                <th>Category</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in Model)
+            {
+                <tr>
+                    <td>@product.Id</td>
+                    <td>@product.Name</td>
+                    <td>@product.Description</td>
+                    <td>@product.Price</td>
+                    <td>@(product.IsAvailable ? "Yes" : "No")</td>
+                    <td>@product.ReadyTime</td>
+                    <td>@product.CategoryType</td>
+                    <td>
+                        <a asp-controller="Product" asp-action="Update" asp-area="" asp-route-productId="@product.Id" class="btn btn-primary">Edit</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <a asp-controller="Product" asp-area="" asp-action="Create" class="btn btn-secondary mt-3">Add New Product</a>
+    <a asp-controller="Home" asp-area="" asp-action="Index" class="btn btn-secondary mt-3">Return to Home</a>
+</div>

@@ -1,0 +1,39 @@
+﻿@{
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+    ViewData["Title"] = "Cart";
+}
+
+<div class="cart-box-main">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="table-main table-responsive" id="cartTable">
+                    <table class='table'>
+                        <thead>
+                            <tr>
+                                <th>Product Image</th>
+                                <th>Product Name</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Is Guest</th>
+                                <th>Select Office</th>
+                                <th>Select Office Boy</th>
+                                <th>Order Distination</th>
+                                <th>Remove</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-lg-12 d-flex justify-content-end text-center mt-3">
+                <button class="btn btn-success me-3" id="checkoutBtn" onclick="checkout()" disabled>Checkout</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section CustomScript {
+    <script src="~/js/userLayoutCustomJs/CartScript.js" asp-append-version="true"></script>
+}

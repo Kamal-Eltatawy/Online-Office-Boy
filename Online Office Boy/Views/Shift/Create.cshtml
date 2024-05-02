@@ -1,0 +1,31 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Create Shift";
+}
+@model ApplicationService.ViewModels.OfficeBoyCreateShiftVM
+
+<div class="container">
+    <h2>Create Shift for @Model.Name</h2>
+    <form method="post" asp-action="Create" asp-controller="Shift">
+        <input type="hidden" asp-for="OfficeBoyId" />
+        <input asp-for="Name" hidden class="form-control" readonly required maxlength="50" />
+
+        <div class="form-group">
+            <label>Shift Start Time</label>
+            <input asp-for="ShiftStartTime" type="time" class="form-control" required />
+            <span asp-validation-for="ShiftStartTime" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label>Shift End Time</label>
+            <input asp-for="ShiftEndTime" type="time" class="form-control" required />
+            <span asp-validation-for="ShiftEndTime" class="text-danger"></span>
+        </div>
+        <div class="text-danger" asp-validation-summary="All"></div>
+        <button type="submit" class="btn btn-primary">Create Shift</button>
+    </form>
+    <a asp-controller="Shift" asp-action="Index" class="btn btn-secondary mt-3">Return to Office Boy Shifts</a>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,95 @@
+﻿
+
+<!-- Sidenav -->
+<nav class="sidenav navbar navbar-vertical fixed-left navbar-expand-xs navbar-light bg-white" id="sidenav-main">
+    <div class="scrollbar-inner">
+
+        <!-- Brand -->
+        <div class="sidenav-header  align-items-center">
+            <a class="navbar-brand" asp-area="" asp-action="index" asp-controller="Home">
+                <img src="/img/brand/blue.png" class="navbar-brand-img" alt="...">
+            </a>
+        </div>
+        <div class="navbar-inner">
+            <!-- Collapse -->
+            <div class="collapse navbar-collapse" id="sidenav-collapse-main">
+
+                <!-- Collapse header -->
+                <div class="navbar-collapse-header d-md-none">
+                    <div class="row">
+                        <div class="col-6 collapse-brand">
+                            <a href="/">
+                                <img src="">
+                            </a>
+                        </div>
+                        <div class="col-6 collapse-close">
+                            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#sidenav-collapse-main" aria-controls="sidenav-main" aria-expanded="false" aria-label="Toggle sidenav">
+                                <span></span>
+                                <span></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Navigation -->
+                <ul class="navbar-nav">
+                    @if(User.IsInRole("Admin")){
+                    <li class="nav-item">
+                            <a class="nav-link " asp-area="" asp-controller="Office" asp-action="Index">
+                                <i class="ni ni-tv-2 text-primary"></i> Offices
+                        </a>
+                    </li>
+                        <li class="nav-item">
+                            <a class="nav-link " asp-area="" asp-controller="Shift" asp-action="Index">
+                                <i class="ni ni-pin-3 text-primary"></i> Shifts
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link " asp-area="" asp-controller="User" asp-action="Index">
+                                <i class="ni ni-pin-3 text-primary"></i> Users
+                            </a>
+                        </li>
+
+                    }
+                    @if (User.IsInRole("OfficeBoy"))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link " asp-area="" asp-controller="Product" asp-action="Index">
+                                <i class="ni ni-pin-3 text-primary"></i> Products
+                            </a>
+                        </li>
+                    <li class="nav-item">
+                            <a class="nav-link " asp-area="" asp-controller="Order" asp-action="OrderStatusDashboard">
+                                <i class="ni ni-pin-3 text-primary"></i> Orders Status
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link " asp-area="" asp-controller="Order" asp-action="OrderIsPaidDashboard">
+                                <i class="ni ni-pin-3 text-primary"></i> Orders Payment Status
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link " asp-area="" asp-controller="Report" asp-action="Index">
+                                <i class="ni ni-pin-3 text-primary"></i>  Reports
+                            </a>
+                        </li>
+                
+                    }
+
+                </ul>
+
+                <!-- Divider -->
+                <hr class="my-3">
+
+                <!-- Heading -->
+                <h6 class="navbar-heading p-0 text-muted">
+                    <span class="docs-normal">Documentation</span>
+                </h6>
+
+                <!-- Navigation -->
+            </div>
+        </div>
+    </div>
+
+</nav>

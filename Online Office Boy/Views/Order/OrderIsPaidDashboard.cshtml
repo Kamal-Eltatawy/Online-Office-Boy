@@ -1,0 +1,88 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Orders";
+}
+
+
+<div class="wishlist-box-main mt-0">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="table-responsive">
+                    <!-- Added table-responsive class -->
+                    <table class="table" id="orderTable">
+                        <thead>
+                            <tr>
+                                <th class ="col-auto">Order ID</th>
+                                <th class="col-sm-2">Product Img</th>
+                                <th class="col-auto">Product Name</th>
+                                <th class="col-auto">Product Price</th>
+                                <th class="col-auto">Ready Time</th>
+                                <th class="col-auto">Quantity</th>
+                                <th class="col-auto">Is Paid</th>
+                                <th class="col-auto">Is Guest</th>
+                                <th class="col-auto text-center">Status</th>
+                                <th class="col-auto">Office Boy Name</th>
+                                <th class="col-auto">Destination</th>
+                                <th class="col-auto">Update</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        function loadPartialView() {
+            $.ajax({
+                url: '/Order/OrderDashboardIsPaidPartialTable',
+                method: 'GET',
+                success: function (response) {
+                    $('#orderTable tbody').html(response);
+                },
+                error: function () {
+                    alert('An error occurred while loading the partial view.');
+                }
+            });
+        }
+        function updateIsPaid(orderId, productId) {
+            var isPaid = $('#isPaid_' + orderId + '-' + productId).prop('checked');
+            $.ajax({
+                url: '/Order/EditIsPaid',
+                method: 'POST',
+                data: {
+                    OrderId: orderId,
+                    ProductId: productId,
+                    IsPaid: isPaid
+                },
+                success: function (response) {
+                    if (response.code === 1) {
+                        alert('Status updated successfully.');
+                        loadPartialView();
+                    } else {
+                        alert('Failed to update status.');
+                    }
+                },
+                error: function () {
+                    alert('An error occurred while updating status.');
+                }
+            });
+        }
+        $(document).ready(function () {
+            alert("Here Will be just the Orders delivered for The Current Office Boy So He Can Determine if It is Paid Or NO ");
+            loadPartialView();
+
+            setInterval(function () {
+                loadPartialView();
+            }, 30000);
+        });
+   
+    </script>
+}
+
+
+

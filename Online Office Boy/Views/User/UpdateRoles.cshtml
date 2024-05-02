@@ -1,0 +1,36 @@
+﻿@model ApplicationService.ViewModels.UserWithRolesRequestVM
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Update User";
+    SelectList Roles = new SelectList(ViewBag.Roles, "Value", "Text");
+
+}
+
+<div class="container">
+    <h1>Edit Roles for @Model.Name</h1>
+    <div class="row">
+        <div class="col-md-12">
+            <form method="post" asp-action="UpdateRoles" asp-controller="User">
+                <input asp-for="Id" readonly hidden />
+                <input asp-for="Name" hidden class="form-control" readonly required maxlength="50" />
+                <div class="form-group">
+                    <label for="Roles">Select Roles:</label>
+                    <select asp-for="Roles" asp-items="Roles" id="rolesSelect" class="selectpicker form-control" multiple required>
+                    </select>
+                    <span asp-validation-for="Roles" class="text-danger"></span>
+                </div>
+                <div class="text-danger" asp-validation-summary="All"></div>
+                <button type="submit" class="btn btn-primary">Update User</button>
+            </form>
+        </div>
+    </div>
+    <a asp-controller="User" asp-action="Index" class="btn btn-secondary mt-3">Return to Users</a>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+  
+    </script>
+}

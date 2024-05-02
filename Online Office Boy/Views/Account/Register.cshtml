@@ -1,0 +1,117 @@
+﻿@using Domain.Const
+@model UserViewModelRequest
+@{
+    ViewData["Title"] = "Register";
+    Layout = "~/Views/Shared/_IdentityLayout.cshtml";
+    SelectList depListItems = new SelectList(ViewBag.Offices, "ID", "Name");
+
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<!-- Table -->
+<div class="row justify-content-center">
+    <div class="col-lg-6 col-md-8">
+        <div class="card bg-secondary shadow border-0">
+            <div class="card-header bg-transparent pb-5">
+                <div class="text-muted text-center mt-2 mb-4">
+                    <small>Sign up with</small>
+                </div>
+                <div class="text-center">
+                    <a href="#" class="btn btn-neutral btn-icon mr-4">
+                        <span class="btn-inner--icon">
+                            <img src="~/img/icons/common/github.svg">
+                        </span>
+                        <span class="btn-inner--text">Github</span>
+                    </a>
+                    <a href="#" class="btn btn-neutral btn-icon">
+                        <span class="btn-inner--icon">
+                            <img src="~/img/icons/common/google.svg">
+                        </span>
+                        <span class="btn-inner--text">Google</span>
+                    </a>
+                </div>
+            </div>
+            <div class="card-body px-lg-5 py-lg-5">
+                <div class="text-center text-muted mb-4">
+                    <small>Or sign up with credentials</small>
+                </div>
+                <form id="registerForm" method="post" role="form" asp-action="Register" asp-controller="Account">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+
+                    <!-- Full Name field -->
+                    <div class="form-group">
+                        <input asp-for="Name" class="form-control" placeholder="Full Name"  />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <!-- Email field -->
+                    <div class="form-group">
+                        <input asp-for="Email" class="form-control" placeholder="Email" type="email"  />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <!-- Phone Number field -->
+                    <div class="form-group">
+                        <input asp-for="PhoneNumber" class="form-control" type="number" placeholder="Phone Number" pattern="^01[0-2]\d{1,8}$" />
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                    </div>
+                    <!-- Username field -->
+                    <div class="form-group">
+                        <input asp-for="UserName" class="form-control" placeholder="Username"  />
+                        <span asp-validation-for="UserName" class="text-danger"></span>
+                    </div>
+                    <!-- Password field -->
+                    <div class="form-group">
+                        <input asp-for="Password" class="form-control" placeholder="Password"  type="password" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                    <!-- Confirm Password field -->
+                    <div class="form-group">
+                        <input asp-for="ConfirmPassword" class="form-control" placeholder="Confirm Password" type="password"  />
+                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="OfficeID"></label>
+                        <select asp-for="OfficeID" asp-items="depListItems" class="form-control">
+                        </select>
+                        <span asp-validation-for="OfficeID"></span>
+                    </div>
+                    <label asp-for="PaidPeriod"></label>
+                    <select asp-for="PaidPeriod" asp-items="Html.GetEnumSelectList<PaidPeriod>()" class="form-control">
+                    </select>
+                    <span asp-validation-for="PaidPeriod"></span>
+                    <!-- Terms and Conditions checkbox -->
+                    <!-- Submit button -->
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary mt-4">Create Account</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial"/>
+
+}
+
+@section IdentityHeader
+{
+    <div class="header bg-gradient-primary py-7 py-lg-8 pt-lg-9">
+        <div class="container">
+            <div class="header-body text-center mb-7">
+                <div class="row justify-content-center">
+                    <div class="col-xl-5 col-lg-6 col-md-8 px-5">
+                        <h1 class="text-white">Create an account</h1>
+                        <h4 class="text-lead text-white">We Are Happy To Join US.</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="separator separator-bottom separator-skew zindex-100">
+            <svg x="0" y="0" viewBox="0 0 2560 100" preserveAspectRatio="none" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                <polygon class="fill-default" points="2560 0 2560 100 0 100"></polygon>
+            </svg>
+        </div>
+    </div>
+}

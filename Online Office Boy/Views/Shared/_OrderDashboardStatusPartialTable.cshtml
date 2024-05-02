@@ -1,0 +1,33 @@
+﻿@using Domain.Const
+@{
+    Layout = "";
+}
+@model List<OrdersDetailsResponeVM>
+@foreach (var item in Model)
+{
+    <tr>
+        <td>@item.OrderId</td>
+        <td>
+            <a href="#">
+                <img class="img-thumbnail w-50" src="~/@item.ProductImgUrl" alt="Product Image" />
+            </a>
+        </td>
+        <td>@item.ProductName</td>
+        <td>
+            <p>@item.ProductPrice $</p>
+        </td>
+        <td>@item.ReadyTime.ToString("hh\\:mm\\:ss")</td>
+        <td>@item.Quantity</td>
+        <td>@((item.IsPaid) ? "Yes" : "No")</td>
+        <td>@((item.IsGuest) ? "Yes" : "No")</td>
+        <td>
+            <select id="statusSelect_@($"{item.OrderId}-{item.ProductId}")" asp-for="@item.Status" asp-items="Html.GetEnumSelectList<OrderStatus>()" class="form-control text-black col-lg-12 col-md-12 col-sm-12">
+            </select>
+        </td>
+        <td>@item.OfficeBoyName</td>
+        <td>@item.DepartmentName</td>
+        <td>
+            <a href="#" class="btn btn-primary btn-sm cancel-link" onclick="updateStatus(@item.OrderId, @item.ProductId)">Update</a>
+        </td>
+    </tr>
+}

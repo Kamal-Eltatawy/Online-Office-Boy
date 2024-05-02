@@ -1,0 +1,230 @@
+﻿@using Domain.Const
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Reports";
+}
+
+<div class="wishlist-box-main mt-0">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-2">
+                <div class="form-group">
+                    <label>Seraech For</label>
+                    <select asp-items="Html.GetEnumSelectList<SearchOptions>()" id='searchOptionsSelect' class='search-Options-select form-control form-control-sm'>
+                    </select>
+                </div>
+
+            </div>
+            <div class="col-2">
+                <label>Select Employee</label>
+
+                <div class="form-group">
+                    <select id='userIdSelect' class='user-Id-select form-control form-control-sm'></select>
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="form-group">
+                    <label>From</label>
+                    <input type="date" class="form-control form-control-sm" id="fromDate" />
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="form-group">
+                    <label>To</label>
+                    <input type="date" class="form-control form-control-sm" id="toDate" />
+                </div>
+            </div>
+            <div class="col-2 d-flex">
+                <div class="form-group m-auto lead">
+                    <label>Is paid </label>
+                    <input type="checkbox" class="checkbox" id="isPaidCheck" />
+                </div>
+
+            </div>
+            <div class="col-2">
+                <div class="form-group">
+                    <button id="searchButton" class="btn mt-4 btn-outline-info">Search</button>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="table-responsive">
+                    <table class="table" id="orderHeaderTable">
+                        <thead>
+                            <tr>
+                                <th class="col-auto">Order ID</th>
+                                <th class="col-auto">Employee Total Price</th>
+                                <th class="col-auto">Guest Total Price</th>
+                                <th class="col-auto">Created Date</th>
+                                <th class="col-auto">Created Employee Name</th>
+                                <th class="col-auto">Details</th>
+                                <th class="col-auto">Print</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="detailsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <!-- Use modal-xl class for extra large width -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">Order Details</h4>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table" id="orderDetailsTable">
+                        <thead>
+                            <tr>
+                                <th class="col-auto">Order ID</th>
+                                <th class="col-sm-2">Product Img</th>
+                                <th class="col-auto">Product Name</th>
+                                <th class="col-auto">Product Price</th>
+                                <th class="col-auto">Ready Time</th>
+                                <th class="col-auto">Quantity</th>
+                                <th class="col-auto">Is Paid</th>
+                                <th class="col-auto">Is Guest</th>
+                                <th class="col-sm-2 text-center">Status</th>
+                                <th class="col-auto">Office Boy Name</th>
+                                <th class="col-auto">Destination</th>
+                                <th class="col-auto">Print</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+        var isPaid = false;
+        var searchOptions;
+        var userId = "";
+        var fromDate;
+        var toDate
+        $(document).ready(function () {
+            $('#searchOptionsSelect').change(function () {
+                if ($(this).val() == "@((int)SearchOptions.Employee)") {
+                    // Send AJAX request to fetch users
+                    $.ajax({
+                        url: '/User/GetAllUsers',
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function (response) {
+                            if (response.code == 1) {
+                                $('#userIdSelect').empty();
+                                $.each(response.users, function (index, user) {
+                                    $('#userIdSelect').append($('<option>', {
+                                        value: user.id,
+                                        text: user.name
+                                    }));
+                                });
+                            }
+                            else {
+                                console.log('No users found.');
+                            }
+                        },
+                        error: function () {
+                            console.log('Error fetching users.');
+                        }
+                    });
+                } else {
+                    $('#userIdSelect').empty();
+                }
+            });
+
+            $('#searchButton').click(function () {
+                searchOptions = $('#searchOptionsSelect').val();
+                userId = $('#userIdSelect').val();
+                isPaid = $('#isPaidCheck').prop('checked');
+                 fromDate = $('#fromDate').val();
+                 toDate = $('#toDate').val();
+
+                var requestData = {
+                    SearchOptions: searchOptions,
+                    UserId: userId,
+                    IsPaid: isPaid,
+                    From: fromDate,
+                    To: toDate
+                };
+
+                $.ajax({
+                    url: '/Report/GetOrderHeaderTablePartial',
+                    type: 'POST',
+                    dataType: 'html',
+                    data: requestData,
+                    success: function (response) {
+                        console.log(response);
+                        $('#orderHeaderTable tbody').html(response);
+                    },
+                    error: function () {
+                        console.log('Error fetching order header table.');
+                    }
+                });
+            });
+        });
+
+        function Print(orderId) {
+            $.ajax({
+                url: '/Report/Print',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    SearchOptions: searchOptions,
+                    UserId: userId,
+                    OrderId: orderId,
+                    IsPaid: isPaid,
+                    From: fromDate,
+                    To: toDate
+                },
+                success: function (response) {
+                    console.log(response);
+               
+                },
+                error: function () {
+                    console.log('Error fetching order details.');
+                }
+            });
+
+        }
+
+        function handleSeeDetailsClick(orderId) {
+            var requestData = {
+               
+            };
+            $.ajax({
+                url: '/Report/GetOrderDetailsTablePartial',
+                type: 'POST',
+                dataType: 'html', // Change dataType to json
+                data: {
+                    SearchOptions: searchOptions,
+                    UserId: userId,
+                    OrderId: orderId,
+                    IsPaid: isPaid,
+                    From: fromDate,
+                    To: toDate
+                },
+                success: function (response) {
+                        $('#orderDetailsTable tbody').html(response);
+                        $('#detailsModal').modal('show');
+                },
+                error: function () {
+                    console.log('Error fetching order details.');
+                }
+            });
+        }</script>
+}

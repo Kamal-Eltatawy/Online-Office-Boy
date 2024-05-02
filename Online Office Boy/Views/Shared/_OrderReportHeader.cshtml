@@ -1,0 +1,23 @@
+﻿@{
+    Layout = "";
+}
+@model List<OrderReportHeaderVM>
+@foreach (var item in Model)
+{
+    <tr>
+        <td>@item.OrderId</td>
+        <td>@item.EmployeeTotalPrice $</td>
+        <td>
+            @item.GuestTotalPrice $
+        </td>
+        <td>@item.CreatedDate</td>
+        <td>@item.CreatedName</td>
+        <td>
+            <a href="#" class="btn btn-primary btn-sm cancel-link see-details" onclick="handleSeeDetailsClick(@item.OrderId)">SeeDetails</a>
+        </td>
+        <td>
+            <a href="#" class="btn btn-primary btn-sm cancel-link see-details" onclick="Print(@item.OrderId)">Print</a>
+        </td>
+    </tr>
+}
+

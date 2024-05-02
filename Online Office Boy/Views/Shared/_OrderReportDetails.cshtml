@@ -1,0 +1,29 @@
+﻿@{
+    Layout = "";
+}
+@model List<ReportOrderDetailsVM>
+@foreach (var item in Model)
+{
+    <tr>
+        <td>@item.OrderId</td>
+        <td>
+            <a href="#">
+                <img class="img-thumbnail w-100" src="~/@item.ProductImgUrl" alt="Product Image" />
+            </a>
+        </td>
+        <td>@item.ProductName</td>
+        <td>
+            <p>@item.ProductPrice $</p>
+        </td>
+        <td>@item.ReadyTime.ToString("hh\\:mm\\:ss")</td>
+        <td>@item.Quantity</td>
+        <td>@((item.IsPaid) ? "Yes" : "No")</td>
+        <td>@((item.IsGuest) ? "Yes" : "No")</td>
+        <td>
+            @item.Status
+        </td>
+        <td>@item.OfficeBoyName</td>
+        <td>@item.DepartmentName</td>
+
+    </tr>
+}

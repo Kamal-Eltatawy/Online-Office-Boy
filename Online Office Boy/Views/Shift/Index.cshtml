@@ -1,0 +1,49 @@
+﻿@model List<ApplicationService.ViewModels.OfficeBoyResponseVM>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Office Boys";
+}
+
+<div class="container">
+    <h2>Office Boys</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone Number</th>
+                <th>Paid Period</th>
+                <th>Office Location</th>
+                <th>Shift Start Time</th>
+                <th>Shift End Time</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var officeBoy in Model)
+            {
+                <tr>
+                    <td>@officeBoy.Name</td>
+                    <td>@officeBoy.Email</td>
+                    <td>@officeBoy.PhoneNumber</td>
+                    <td>@officeBoy.PaidPeriod</td>
+                    <td>@officeBoy.OfficeLocation</td>
+                    <td>@officeBoy.ShiftStartTime</td>
+                    <td>@officeBoy.ShiftEndTime</td>
+                    <td>
+                        @if (officeBoy.ShiftId == null)
+                        {
+                            <a asp-controller="Shift" asp-action="Create" asp-route-OfficeBoyId="@officeBoy.OfficeBoyId" class="btn btn-primary">Create</a>
+                        }
+                        else
+                        {
+                            <a asp-controller="Shift" asp-action="Update" asp-route-OfficeBoyId="@officeBoy.OfficeBoyId" class="btn btn-primary">Update</a>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <a asp-controller="Home" asp-action="Index" class="btn btn-secondary mt-3">Return to Home</a>
+</div>

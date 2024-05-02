@@ -1,0 +1,36 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Offices";
+}
+@model List<Office>
+
+<div class="container">
+    <h2>Product</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Location</th>
+                <th>Is Ketchen</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var Office in Model)
+            {
+                <tr>
+                    <td>@Office.ID</td>
+                    <td>@Office.Name</td>
+                    <td>@Office.Location</td>
+                    <td>@(Office.IsKitchen ? "Yes" : "No")</td>
+                    <td>
+                        <a asp-controller="Office" asp-action="Update" asp-area="" asp-route-officeId="@Office.ID" class="btn btn-primary">Edit</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <a asp-controller="Office" asp-area="" asp-action="Create" class="btn btn-secondary mt-3">Add New Office</a>
+    <a asp-controller="Home" asp-area="" asp-action="Index" class="btn btn-secondary mt-3">Return to Home</a>
+</div>

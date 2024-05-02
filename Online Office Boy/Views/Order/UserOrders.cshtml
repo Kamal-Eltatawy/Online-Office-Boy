@@ -1,0 +1,97 @@
+﻿@{
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+    ViewData["Title"] = "My Orders";
+}
+
+@model List<OrderProductsResponseOrderVM>
+
+<div class="wishlist-box-main mt-0">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-10 m-auto">
+                <div class="table-main table-responsive">
+                    <table class="table" id="orderTable">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Product Img</th>
+                                <th>Product Name</th>
+                                <th>Product Price</th>
+                                <th>Ready Time</th>
+                                <th>Quantity</th>
+                                <th>Is Paid</th>
+                                <th>Is Guest</th>
+                                <th>Status</th>
+                                <th>Office Boy Name</th>
+                                <th>Destination</th>
+                                <th>Cancel</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td class="quantity-box">@item.OrderId</td>
+
+                                    <td class="thumbnail-img">
+                                        <a href="#">
+                                            <img class="img-fluid" src="~/@item.ProductImgUrl" alt="Product Image" />
+                                        </a>
+                                    </td>
+                                    <td class="quantity-box">@item.ProductName</td>
+
+                                    <td class="price-pr">
+                                        <p>@item.ProductPrice $</p>
+                                    </td>
+                                    <td class="quantity-box">@item.ReadyTime.ToString("hh\\:mm\\:ss")</td>
+
+                                    <td class="quantity-box">@item.Quantity</td>
+                                    <td class="quantity-box">@(item.IsPaid ? "Yes" : "No")</td>
+                                    <td class="quantity-box">@(item.IsGuest ? "Yes" : "No")</td>
+                                    <td class="quantity-box">@item.Status</td>
+                                    <td class="quantity-box">@item.OfficeBoyName</td>
+                                    <td class="quantity-box">@item.DepartmentName</td>
+                                    <td class="remove-pr">
+                                        <a href="#" class="cancel-link" onclick="cancelOrder(@item.ProductId, @item.OrderId)">Cancel</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section CustomScript {
+    <script>
+            function cancelOrder(productId, orderId) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/Order/CancelOrderProduct',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ ProductId: productId, OrderId: orderId }),
+                    success: function (response) {
+                        if (response.code === 1) {
+                            alert('Order cancelled successfully.');
+                            location.reload(); 
+                        } else if (response.code === -4) {
+                            alert('You cannot cancel this order as it has already been received.');
+                        } else if (response.code === -5) {
+                            alert('Invalid order ID.');
+                        } else {
+                            alert('An internal server error occurred. Order was not cancelled.');
+                        }
+                    },
+                    error: function () {
+                        alert('An error occurred while processing your request.');
+                    }
+                });
+            }
+
+    </script>
+}
+
+
+
