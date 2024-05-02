@@ -87,8 +87,8 @@ namespace Online_Office_Boy
 
             app.UseHttpsRedirection();
 
-  
-            
+
+            app.UseStaticFiles();
 
             app.UseRouting();
 
